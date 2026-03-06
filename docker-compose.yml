@@ -1,0 +1,16 @@
+services:
+  carlson-client:
+    build: ./client
+    env_file:
+      - .env
+    environment:
+      - OLLAMA_HOST=${OLLAMA_HOST}
+      - CARLSON_NAME=${CARLSON_NAME:-CARLSON}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    devices:
+      - /dev/snd:/dev/snd  # Audio hardware access
+    volumes:
+      - ./client/config.yml:/app/config.yml:ro
+      - ./secrets:/app/secrets:ro  # Optional for future API keys
+    restart: unless-stopped
+    network_mode: bridge
